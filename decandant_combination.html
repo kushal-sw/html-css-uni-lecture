@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* desandand combinator */
+        div p{
+            color: rgb(0, 251, 243);
+        }
+        /* child combinator changes css for tags in <sectioon> */
+        div >p{
+            color: blueviolet;
+        }
+ /* adjacent combinator changes css for the tag adjancent to t example h2 changes css for its adjacent tag in ase p */
+    h2 + p {
+        color: chartreuse;
+    }
+    /* general sibling selector  */
+    h1 ~ p{
+        color: darkgoldenrod;
+    }
+        
+        
+    </style>
+</head>
+<body>
+    <div>
+        <h1> hello this is descantand combination</h1>
+        <p>this is ksubal swargam</p>
+        <section><p> hi my name is kysal</p></section>
+        
+    </div>
+    <h2>adjacent selector</h2>
+        <p> this sis adjacent tag </p>
+        <p> hello my sdhnsidhien </p>
+        <h1> this si general siblking tga</h1>
+        <p> this si sa djfh dind</p>
+        <p>jdijidhhd nwdwidnwub </p>
+</body>
+</html>

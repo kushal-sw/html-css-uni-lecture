@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[required], select[required]{
+            border: 2px solid red;
+            background-color: aliceblue;
+        }
+        input[type="password"]{
+            border: 2px solid red;
+        }
+        /* it changes collor to every  div class with big in it. 
+        it will define as class ~= */
+        div[class~="big"]{
+            background-color: brown;
+        }
+        /* it only changes <p> with class = "en in it"
+            it will defin as class |= */
+        p[lang|="en"]{
+            color: blue;
+        }
+        /* this is color selctor for links we can define it as 
+        href^="https" */
+        a[href^="https"]{
+            color: chartreuse;
+        }        
+        /* this is a color selectr for imgs we can define it as 
+        src $=".jpeg" */
+        img[src$=".jpeg"]{
+            border: 2px solid blue;
+        }
+        a[href *="login"]{
+            color:crimson
+        }
+    </style>
+</head>
+<body>
+    <div class="box big">box1</div>
+    <div class="big">box2</div>
+    <p lang = "en"> englsi is </p>
+    <p lang = "en-us "> enhlish usa</p>
+    <p lang ="fr"> french</p>
+    <a href="https://www.google.com/"> google link is here ihdiehiefn finieiefnn einfi
+    </a>
+    <a href="http://www.netflix.com/"> netflix id hfofjd</a>
+    <img src="cat.jpeg">
+    <img src ="travis.png">
+    <a href="/user/login">login</a>
+    <a href=" /home">home </a>
+    <a href="/signup/login">signup</a>
+    
+</body>
+</html>

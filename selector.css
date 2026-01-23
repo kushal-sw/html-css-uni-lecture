@@ -1,15 +1,17 @@
+/* grouping */
 h1, h3 {
     background-color: blue;
 }
-
+/* id */
 #main{
     color: rgb(237, 2, 2);
 }
-.kushal{
+/* class */
+.kushal{                
     color: brown;
 }
-
+/* universa */
 *{
     margin: 30;
     padding: 30px;
-}
+}           

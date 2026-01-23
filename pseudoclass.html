@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button{
+            padding: 12px 24px;
+            font-size: 150px;
+                background-color: brown;
+            border: none;
+        cursor: pointer;}
+            /* when cursor is on the button the color will change */
+        button:hover{
+        background-color: aqua;
+        color: beige;
+
+        }
+        /* this changes css of the button when the button is clicked */
+        button:active{
+            background-color: cornflowerblue;
+            color:beige;
+        }
+        input{
+            padding: auto;
+            font-size: 20px;
+            border: 2px solid whitesmoke;
+            outline: none;
+            text-align: center;
+        }
+        input:focus{
+            border: 2px solid red;
+        }
+        a{
+            color: aqua;
+            text-decoration: none;
+            font-size: 50px;
+        }
+        a:hover{
+
+        color: purple;
+        }
+        a:visited{
+            color: red;
+        }
+        /* li:first-child{
+            color: red;
+            font-weight: bold;
+        }
+        li:last-child{
+            color: brown;
+            font-weight: bold;
+        } */
+        li:nth-child(even){
+            color: blue;
+        }
+        li:nth-child(odd){
+            color:red
+        }
+        li:nth-child(4){
+            background-color:yellow
+        }
+    </style>
+</head>
+<body>
+    <h1> button for hover</h1>
+    <button>hover on me</button>
+    <h2>input focus</h2>
+    <input type="text" placeholder="click here for 100rs"><br>
+
+    <a href="https://www.youtube.com" title="youtube"> youtube</a>
+    <ul>
+        <li>apple</li>
+        <li>bannana</li>
+        <li>pineapple</li>
+        <li>orange</li>
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+*{
+    margin: 30;
+    padding: 30px;
+}           
+
+.form{
+    padding: 100px;
+    margin: auto;
+    background-color: bisque;
+    width: 300px;
+    line-height: 10px ;
+}
