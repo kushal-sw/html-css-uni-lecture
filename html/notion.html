@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion – Build something beautiful.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fff;
+            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            cursor: default;
+        }
+
+        /* Large Tablet */
+        @media (max-width: 992px) {
+            canvas {
+                width: 100%;
+                height: auto;
+                min-height: 450px;
+            }
+        }
+
+        /* Tablet */
+        @media (max-width: 768px) {
+            canvas {
+                width: 100%;
+                height: auto;
+                min-height: 500px;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            canvas {
+                width: 100%;
+                height: auto;
+                min-height: 600px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="notionCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('notionCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // High-DPI support
+        const dpr = window.devicePixelRatio || 1;
+        let W, H;
+
+
+
+        function resize() {
+            W = window.innerWidth;
+            const isStacked = W < 900;
+            H = isStacked ? Math.max(window.innerHeight, 1000) : Math.max(window.innerHeight, 900);
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            canvas.style.width = W + 'px';
+            canvas.style.height = H + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            draw();
+        }
+
+        // ─── Button hover tracking ───
+        let mouseX = 0, mouseY = 0;
+        let hoveredButton = null;
+
+        const buttons = [];
+
+        function registerButton(x, y, w, h, id) {
+            buttons.push({ x, y, w, h, id });
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+
+            let found = null;
+            for (const b of buttons) {
+                if (mouseX >= b.x && mouseX <= b.x + b.w && mouseY >= b.y && mouseY <= b.y + b.h) {
+                    found = b.id;
+                    break;
+                }
+            }
+            if (found !== hoveredButton) {
+                hoveredButton = found;
+                canvas.style.cursor = found ? 'pointer' : 'default';
+                draw();
+            }
+        });
+
+        // ─── Draw Helpers ───
+        function roundRect(x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+        }
+
+        function fillRoundRect(x, y, w, h, r, color) {
+            ctx.fillStyle = color;
+            roundRect(x, y, w, h, r);
+            ctx.fill();
+        }
+
+        function strokeRoundRect(x, y, w, h, r, color, lw) {
+            ctx.strokeStyle = color;
+            ctx.lineWidth = lw || 1;
+            roundRect(x, y, w, h, r);
+            ctx.stroke();
+        }
+
+        // ─── Draw Illustration Characters (matching notionbg.png) ───
+        function drawIllustrations(ox, oy) {
+            // The illustration is a horizontal row of overlapping cartoon faces/circles
+            // ox = left edge, oy = vertical center line of the row
+            const s = 1; // scale factor
+
+            // Helper: draw a simple face outline (white filled circle with black stroke)
+            function faceCircle(cx, cy, r) {
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#1a1a1a';
+                ctx.lineWidth = 2.5 * s;
+                ctx.stroke();
+            }
+
+            // Helper: small dot eye
+            function dotEye(cx, cy, r) {
+                ctx.fillStyle = '#1a1a1a';
+                ctx.beginPath();
+                ctx.arc(cx, cy, r || 3 * s, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Helper: triangular nose pointing down-right
+            function sideNose(cx, cy, size) {
+                ctx.strokeStyle = '#1a1a1a';
+                ctx.lineWidth = 2 * s;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + size, cy + size * 0.8);
+                ctx.lineTo(cx, cy + size * 1.2);
+                ctx.stroke();
+            }
+
+            // ── 1. Blue circle with open book (face on book) ──
+            const b1x = ox, b1y = oy + 15 * s;
+            const b1r = 32 * s;
+            // Blue circle
+            ctx.fillStyle = '#4a8df8';
+            ctx.beginPath();
+            ctx.arc(b1x, b1y, b1r, 0, Math.PI * 2);
+            ctx.fill();
+            // Open book
+            ctx.fillStyle = '#fff';
+            ctx.save();
+            ctx.translate(b1x, b1y);
+            // Left page
+            ctx.beginPath();
+            ctx.moveTo(0, -14 * s);
+            ctx.quadraticCurveTo(-20 * s, -16 * s, -22 * s, -4 * s);
+            ctx.lineTo(-22 * s, 14 * s);
+            ctx.lineTo(0, 12 * s);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 1.5 * s;
+            ctx.stroke();
+            // Right page
+            ctx.beginPath();
+            ctx.moveTo(0, -14 * s);
+            ctx.quadraticCurveTo(20 * s, -16 * s, 22 * s, -4 * s);
+            ctx.lineTo(22 * s, 14 * s);
+            ctx.lineTo(0, 12 * s);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.stroke();
+            // Spine
+            ctx.beginPath();
+            ctx.moveTo(0, -14 * s);
+            ctx.lineTo(0, 12 * s);
+            ctx.stroke();
+            // Face on book - eyes
+            dotEye(-8 * s, -2 * s, 2.5 * s);
+            dotEye(8 * s, -2 * s, 2.5 * s);
+            // Mouth
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 1.5 * s;
+            ctx.beginPath();
+            ctx.arc(0, 5 * s, 5 * s, 0.15 * Math.PI, 0.85 * Math.PI);
+            ctx.stroke();
+            ctx.restore();
+
+            // ── 2. White face with orange/red glasses ──
+            const b2x = ox + 55 * s, b2y = oy + 8 * s;
+            const b2r = 34 * s;
+            faceCircle(b2x, b2y, b2r);
+            // Red/orange glasses frames
+            ctx.strokeStyle = '#d45635';
+            ctx.lineWidth = 2.5 * s;
+            ctx.beginPath();
+            ctx.arc(b2x - 8 * s, b2y - 4 * s, 10 * s, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(b2x + 12 * s, b2y - 4 * s, 10 * s, 0, Math.PI * 2);
+            ctx.stroke();
+            // Bridge
+            ctx.beginPath();
+            ctx.moveTo(b2x + 2 * s, b2y - 4 * s);
+            ctx.lineTo(b2x + 2 * s, b2y - 6 * s);
+            ctx.stroke();
+            // Eyes behind glasses
+            dotEye(b2x - 8 * s, b2y - 4 * s, 2.5 * s);
+            dotEye(b2x + 12 * s, b2y - 4 * s, 2.5 * s);
+            // Nose
+            sideNose(b2x + 2 * s, b2y + 6 * s, 6 * s);
+
+            // ── 3. Face with dark messy hair (looking sideways) ──
+            const b3x = ox + 110 * s, b3y = oy + 5 * s;
+            const b3r = 38 * s;
+            faceCircle(b3x, b3y, b3r);
+            // Dark messy hair
+            ctx.fillStyle = '#1a1a1a';
+            ctx.beginPath();
+            ctx.moveTo(b3x - 30 * s, b3y - 18 * s);
+            ctx.quadraticCurveTo(b3x - 35 * s, b3y - 42 * s, b3x - 10 * s, b3y - 40 * s);
+            ctx.quadraticCurveTo(b3x - 5 * s, b3y - 48 * s, b3x + 5 * s, b3y - 42 * s);
+            ctx.quadraticCurveTo(b3x + 15 * s, b3y - 50 * s, b3x + 22 * s, b3y - 40 * s);
+            ctx.quadraticCurveTo(b3x + 35 * s, b3y - 38 * s, b3x + 32 * s, b3y - 22 * s);
+            ctx.quadraticCurveTo(b3x + 38 * s, b3y - 20 * s, b3x + 35 * s, b3y - 12 * s);
+            ctx.lineTo(b3x + 28 * s, b3y - 15 * s);
+            ctx.quadraticCurveTo(b3x + 20 * s, b3y - 30 * s, b3x, b3y - 32 * s);
+            ctx.quadraticCurveTo(b3x - 20 * s, b3y - 30 * s, b3x - 25 * s, b3y - 18 * s);
+            ctx.closePath();
+            ctx.fill();
+            // Eyebrow
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2 * s;
+            ctx.beginPath();
+            ctx.moveTo(b3x - 5 * s, b3y - 12 * s);
+            ctx.lineTo(b3x + 10 * s, b3y - 14 * s);
+            ctx.stroke();
+            // Eyes
+            dotEye(b3x - 2 * s, b3y - 4 * s, 2.5 * s);
+            dotEye(b3x + 10 * s, b3y - 4 * s, 2.5 * s);
+            // Nose
+            sideNose(b3x + 4 * s, b3y + 5 * s, 5 * s);
+            // Subtle mouth line
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 1.5 * s;
+            ctx.beginPath();
+            ctx.moveTo(b3x + 2 * s, b3y + 16 * s);
+            ctx.lineTo(b3x + 10 * s, b3y + 14 * s);
+            ctx.stroke();
+
+            // ── 4. Orange circle with lightbulb person ──
+            const b4x = ox + 175 * s, b4y = oy + 5 * s;
+            const b4r = 42 * s;
+            // Orange circle bg
+            ctx.fillStyle = '#e87444';
+            ctx.beginPath();
+            ctx.arc(b4x, b4y, b4r, 0, Math.PI * 2);
+            ctx.fill();
+            // White face/head (round)
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(b4x, b4y + 2 * s, 22 * s, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2 * s;
+            ctx.stroke();
+            // Lightbulb top (bulb shape above head)
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(b4x, b4y - 22 * s, 14 * s, Math.PI, 0);
+            ctx.lineTo(b4x + 8 * s, b4y - 12 * s);
+            ctx.lineTo(b4x - 8 * s, b4y - 12 * s);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2 * s;
+            ctx.stroke();
+            // Bulb filament
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 1.5 * s;
+            ctx.beginPath();
+            ctx.moveTo(b4x - 4 * s, b4y - 16 * s);
+            ctx.quadraticCurveTo(b4x, b4y - 22 * s, b4x + 4 * s, b4y - 16 * s);
+            ctx.stroke();
+            // Bulb base lines
+            ctx.beginPath();
+            ctx.moveTo(b4x - 6 * s, b4y - 12 * s);
+            ctx.lineTo(b4x + 6 * s, b4y - 12 * s);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(b4x - 5 * s, b4y - 9 * s);
+            ctx.lineTo(b4x + 5 * s, b4y - 9 * s);
+            ctx.stroke();
+            // Eyes
+            dotEye(b4x - 7 * s, b4y + 0 * s, 3 * s);
+            dotEye(b4x + 7 * s, b4y + 0 * s, 3 * s);
+            // Nose
+            sideNose(b4x, b4y + 8 * s, 5 * s);
+
+            // ── 5. LARGE center face with yellow construction hard hat ──
+            const b5x = ox + 260 * s, b5y = oy - 5 * s;
+            const b5r = 58 * s;
+            faceCircle(b5x, b5y, b5r);
+            // Yellow hard hat
+            ctx.fillStyle = '#f0b429';
+            ctx.beginPath();
+            ctx.ellipse(b5x, b5y - 42 * s, 50 * s, 18 * s, 0, Math.PI, 0);
+            ctx.lineTo(b5x + 38 * s, b5y - 42 * s);
+            ctx.quadraticCurveTo(b5x + 42 * s, b5y - 60 * s, b5x + 20 * s, b5y - 68 * s);
+            ctx.quadraticCurveTo(b5x, b5y - 78 * s, b5x - 20 * s, b5y - 68 * s);
+            ctx.quadraticCurveTo(b5x - 42 * s, b5y - 60 * s, b5x - 38 * s, b5y - 42 * s);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2.5 * s;
+            ctx.stroke();
+            // Hat brim
+            ctx.fillStyle = '#f0b429';
+            ctx.beginPath();
+            ctx.ellipse(b5x, b5y - 40 * s, 52 * s, 8 * s, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2 * s;
+            ctx.stroke();
+            // Eyes
+            dotEye(b5x - 15 * s, b5y - 10 * s, 4 * s);
+            dotEye(b5x + 15 * s, b5y - 10 * s, 4 * s);
+            // Nose
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2.5 * s;
+            ctx.beginPath();
+            ctx.moveTo(b5x + 2 * s, b5y + 5 * s);
+            ctx.lineTo(b5x + 10 * s, b5y + 14 * s);
+            ctx.lineTo(b5x + 2 * s, b5y + 18 * s);
+            ctx.stroke();
+            // Mouth line
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2 * s;
+            ctx.beginPath();
+            ctx.moveTo(b5x - 5 * s, b5y + 28 * s);
+            ctx.lineTo(b5x + 8 * s, b5y + 26 * s);
+            ctx.stroke();
+
+            // ── 6. Face with blue earring/dot ──
+            const b6x = ox + 345 * s, b6y = oy + 10 * s;
+            const b6r = 36 * s;
+            faceCircle(b6x, b6y, b6r);
+            // White cap/beret on top
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(b6x + 5 * s, b6y - 28 * s, 18 * s, Math.PI, 0);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2 * s;
+            ctx.stroke();
+            // Eyes
+            dotEye(b6x - 8 * s, b6y - 5 * s, 3 * s);
+            dotEye(b6x + 10 * s, b6y - 5 * s, 3 * s);
+            // Nose
+            sideNose(b6x + 2 * s, b6y + 4 * s, 5 * s);
+            // Blue earring/circle accent
+            ctx.fillStyle = '#4a8df8';
+            ctx.beginPath();
+            ctx.arc(b6x - 22 * s, b6y + 18 * s, 8 * s, 0, Math.PI * 2);
+            ctx.fill();
+
+            // ── 7. Woman with black hair ──
+            const b7x = ox + 410 * s, b7y = oy + 8 * s;
+            const b7r = 34 * s;
+            faceCircle(b7x, b7y, b7r);
+            // Black hair - long flowing
+            ctx.fillStyle = '#1a1a1a';
+            ctx.beginPath();
+            ctx.moveTo(b7x - 34 * s, b7y);
+            ctx.quadraticCurveTo(b7x - 38 * s, b7y - 25 * s, b7x - 25 * s, b7y - 35 * s);
+            ctx.quadraticCurveTo(b7x - 10 * s, b7y - 45 * s, b7x + 5 * s, b7y - 38 * s);
+            ctx.quadraticCurveTo(b7x + 20 * s, b7y - 45 * s, b7x + 30 * s, b7y - 32 * s);
+            ctx.quadraticCurveTo(b7x + 38 * s, b7y - 20 * s, b7x + 34 * s, b7y - 5 * s);
+            ctx.lineTo(b7x + 30 * s, b7y - 10 * s);
+            ctx.quadraticCurveTo(b7x + 25 * s, b7y - 28 * s, b7x + 5 * s, b7y - 30 * s);
+            ctx.quadraticCurveTo(b7x - 15 * s, b7y - 28 * s, b7x - 28 * s, b7y - 5 * s);
+            ctx.closePath();
+            ctx.fill();
+            // Hair sides flowing down
+            ctx.beginPath();
+            ctx.moveTo(b7x - 34 * s, b7y);
+            ctx.quadraticCurveTo(b7x - 40 * s, b7y + 20 * s, b7x - 32 * s, b7y + 35 * s);
+            ctx.lineTo(b7x - 25 * s, b7y + 28 * s);
+            ctx.quadraticCurveTo(b7x - 30 * s, b7y + 15 * s, b7x - 28 * s, b7y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(b7x + 34 * s, b7y - 5 * s);
+            ctx.quadraticCurveTo(b7x + 40 * s, b7y + 20 * s, b7x + 32 * s, b7y + 35 * s);
+            ctx.lineTo(b7x + 25 * s, b7y + 28 * s);
+            ctx.quadraticCurveTo(b7x + 32 * s, b7y + 15 * s, b7x + 30 * s, b7y);
+            ctx.closePath();
+            ctx.fill();
+            // Eyes (slightly narrower / serious)
+            dotEye(b7x - 10 * s, b7y - 2 * s, 2.5 * s);
+            dotEye(b7x + 8 * s, b7y - 2 * s, 2.5 * s);
+            // Eyebrows (angled)
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2 * s;
+            ctx.beginPath();
+            ctx.moveTo(b7x - 15 * s, b7y - 10 * s);
+            ctx.lineTo(b7x - 5 * s, b7y - 12 * s);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(b7x + 4 * s, b7y - 12 * s);
+            ctx.lineTo(b7x + 14 * s, b7y - 10 * s);
+            ctx.stroke();
+            // Nose
+            sideNose(b7x, b7y + 5 * s, 4 * s);
+            // Mouth
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 1.5 * s;
+            ctx.beginPath();
+            ctx.moveTo(b7x - 4 * s, b7y + 16 * s);
+            ctx.lineTo(b7x + 6 * s, b7y + 15 * s);
+            ctx.stroke();
+
+            // ── 8. Small white circle face (simple side profile) ──
+            const b8x = ox + 475 * s, b8y = oy + 12 * s;
+            const b8r = 28 * s;
+            faceCircle(b8x, b8y, b8r);
+            // Eyes
+            dotEye(b8x - 5 * s, b8y - 3 * s, 2.5 * s);
+            dotEye(b8x + 7 * s, b8y - 3 * s, 2.5 * s);
+            // Nose
+            sideNose(b8x + 2 * s, b8y + 4 * s, 4 * s);
+
+            // ── 9. Gold/yellow circle with checkbox ──
+            const b9x = ox + 525 * s, b9y = oy + 15 * s;
+            const b9r = 30 * s;
+            // Gold circle
+            ctx.fillStyle = '#f0b429';
+            ctx.beginPath();
+            ctx.arc(b9x, b9y, b9r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2 * s;
+            ctx.stroke();
+            // Checkbox square
+            ctx.fillStyle = '#fff';
+            const cbSize = 24 * s;
+            const cbx = b9x - cbSize / 2;
+            const cby = b9y - cbSize / 2;
+            ctx.fillRect(cbx, cby, cbSize, cbSize);
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2 * s;
+            ctx.strokeRect(cbx, cby, cbSize, cbSize);
+            // Checkmark
+            ctx.strokeStyle = '#d45635';
+            ctx.lineWidth = 3 * s;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(cbx + 5 * s, cby + 12 * s);
+            ctx.lineTo(cbx + 10 * s, cby + 18 * s);
+            ctx.lineTo(cbx + 19 * s, cby + 6 * s);
+            ctx.stroke();
+            ctx.lineCap = 'butt';
+        }
+
+        function draw() {
+            buttons.length = 0;
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, W, H);
+
+            const isMobile = W < 600;
+            const isTablet = W < 900 && !isMobile;
+            const isStacked = W < 900;
+
+            const padX = isMobile ? 20 : Math.max(40, W * 0.08);
+            const font = (weight, size, family) =>
+                `${weight} ${size}px ${family || "-apple-system, BlinkMacSystemFont, sans-serif"}`;
+
+            const navH = 56;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, W, navH);
+
+            ctx.strokeStyle = '#e8e8e8';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, navH);
+            ctx.lineTo(W, navH);
+            ctx.stroke();
+
+            const iconX = padX;
+            const iconY = 16;
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(iconX, iconY, 24, 24);
+            ctx.fillStyle = '#fff';
+            ctx.font = font('bold', 16, 'sans-serif');
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('N', iconX + 12, iconY + 13);
+
+            ctx.fillStyle = '#1a1a1a';
+            ctx.font = font('bold', 16);
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Notion', iconX + 32, navH / 2);
+
+            if (!isMobile) {
+                const navLinks = isTablet
+                    ? ['Product', 'Teams', 'Pricing']
+                    : ['Product', 'Teams', 'Individuals', 'Community', 'Pricing'];
+                let navLinkX = iconX + 110;
+                ctx.font = font('', 14);
+                navLinks.forEach((link, i) => {
+                    const linkText = link + (i < navLinks.length - 1 ? ' ▾' : '');
+                    ctx.fillStyle = '#5a5a5a';
+                    ctx.fillText(linkText, navLinkX, navH / 2);
+                    navLinkX += ctx.measureText(linkText).width + (isTablet ? 18 : 28);
+                });
+            }
+
+            const btnText = 'Get Notion free';
+            ctx.font = font('', 14);
+            const btnW = ctx.measureText(btnText).width + 28;
+            const btnH = 34;
+            const btnX = W - padX - btnW;
+            const btnY = (navH - btnH) / 2;
+
+            const isGetNotionHovered = hoveredButton === 'getNotion';
+            fillRoundRect(btnX, btnY, btnW, btnH, 6, isGetNotionHovered ? '#2563eb' : '#2383e2');
+            ctx.fillStyle = '#fff';
+            ctx.font = font('', 14);
+            ctx.textAlign = 'center';
+            ctx.fillText(btnText, btnX + btnW / 2, navH / 2);
+            registerButton(btnX, btnY, btnW, btnH, 'getNotion');
+
+            if (!isMobile) {
+                ctx.fillStyle = '#5a5a5a';
+                ctx.textAlign = 'right';
+                ctx.fillText('Log in', btnX - 25, navH / 2);
+                if (!isTablet) {
+                    ctx.fillText('Request a demo', btnX - 80, navH / 2);
+                }
+            }
+
+            const heroTop = navH + (isMobile ? 30 : 60);
+            const heroLeft = padX;
+
+            const headlineFontSize = isMobile ? 36 : isTablet ? 48 : 64;
+            const headlineLineH = isMobile ? 44 : isTablet ? 58 : 76;
+
+            ctx.fillStyle = '#1a1a1a';
+            ctx.font = font('bold', headlineFontSize);
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+
+            const headlineLines = ['Build', 'something', 'beautiful.'];
+            let headlineY = heroTop;
+            headlineLines.forEach(line => {
+                ctx.fillText(line, heroLeft, headlineY);
+                headlineY += headlineLineH;
+            });
+
+            const subtitleFontSize = isMobile ? 14 : 18;
+            const subtitleY = headlineY + 10;
+            ctx.fillStyle = '#6b6b6b';
+            ctx.font = font('', subtitleFontSize);
+            ctx.fillText('Notion helps you and your team get more', heroLeft, subtitleY);
+            ctx.fillText('done with peace of mind.', heroLeft, subtitleY + (subtitleFontSize + 6));
+
+            const ctaY = subtitleY + (isMobile ? 55 : 72);
+
+            const ctaFontSize = isMobile ? 13 : 15;
+            const cta1Text = 'Get Notion free';
+            ctx.font = font('', ctaFontSize);
+            const cta1W = ctx.measureText(cta1Text).width + 32;
+            const cta1H = isMobile ? 36 : 42;
+            const isCta1Hovered = hoveredButton === 'cta1';
+            fillRoundRect(heroLeft, ctaY, cta1W, cta1H, 6, isCta1Hovered ? '#2563eb' : '#2383e2');
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(cta1Text, heroLeft + cta1W / 2, ctaY + cta1H / 2);
+            registerButton(heroLeft, ctaY, cta1W, cta1H, 'cta1');
+
+            const cta2Text = 'Request a demo';
+            const cta2W = ctx.measureText(cta2Text).width + 32;
+            const cta2X = heroLeft + cta1W + 14;
+            const isCta2Hovered = hoveredButton === 'cta2';
+            fillRoundRect(cta2X, ctaY, cta2W, cta1H, 6, isCta2Hovered ? '#f0f0f0' : '#fff');
+            strokeRoundRect(cta2X, ctaY, cta2W, cta1H, 6, '#d0d0d0', 1.5);
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillText(cta2Text, cta2X + cta2W / 2, ctaY + cta1H / 2);
+            registerButton(cta2X, ctaY, cta2W, cta1H, 'cta2');
+
+            const trustY = ctaY + cta1H + (isMobile ? 30 : 50);
+            ctx.fillStyle = '#9a9a9a';
+            ctx.font = font('', isMobile ? 11 : 13);
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText('Trusted by teams at', heroLeft, trustY);
+
+            const logoY = trustY + 25;
+            const logos = ['airbnb', 'NETFLIX', '🏢 amazon', 'Figma'];
+            const logoSizes = isMobile ? [14, 12, 12, 14] : [18, 15, 15, 18];
+            const logoFonts = [
+                font('italic', logoSizes[0], 'Georgia, serif'),
+                font('bold', logoSizes[1], 'sans-serif'),
+                font('', logoSizes[2], 'sans-serif'),
+                font('bold', logoSizes[3], 'sans-serif')
+            ];
+            let logoX = heroLeft;
+            const logoGap = isMobile ? 15 : 35;
+            logos.forEach((logo, i) => {
+                ctx.fillStyle = '#8a8a8a';
+                ctx.font = logoFonts[i];
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(logo, logoX, logoY + 10);
+                logoX += ctx.measureText(logo).width + logoGap;
+            });
+
+            if (isStacked) {
+                const illusScale = isMobile ? 0.55 : 0.7;
+                const totalIllusW = 555 * illusScale;
+                const illusCenterX = W / 2;
+                const illusX = illusCenterX - totalIllusW / 2 + 32 * illusScale;
+                const illusY = logoY + 90;
+                ctx.save();
+                ctx.translate(illusX, illusY);
+                ctx.scale(illusScale, illusScale);
+                ctx.translate(-illusX, -illusY);
+                drawIllustrations(illusX, illusY);
+                ctx.restore();
+            } else {
+                const heroTextMaxW = Math.min(420, W * 0.4);
+                const illusX = Math.max(W * 0.55, heroLeft + heroTextMaxW + 80);
+                const illusY = heroTop + 100;
+                drawIllustrations(illusX, illusY);
+            }
+        }
+
+        // ─── Init ───
+        window.addEventListener('resize', resize);
+        resize();
+    </script>
+</body>
+
+</html>

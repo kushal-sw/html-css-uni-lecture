@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🔥 GAND FAAD DESI MEME ZONE 2026 🔥</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<style>
+  * {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><text y="24" font-size="24">🔥</text></svg>'), auto;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  h1 {
+    font-family: 'Bangers', cursive;
+    font-size: 2.8rem;
+    color: #ff6b6b;
+    text-shadow: 0 0 20px #ff6b6b, 0 0 40px #ff6b6b, 0 0 60px #ff4757;
+    margin-bottom: 10px;
+    animation: shake 0.3s infinite;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: #ffd93d;
+    margin-bottom: 15px;
+    animation: rainbow 2s infinite;
+  }
+
+  @keyframes rainbow {
+    0% { color: #ff6b6b; }
+    25% { color: #ffd93d; }
+    50% { color: #4ecdc4; }
+    75% { color: #a55eea; }
+    100% { color: #ff6b6b; }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px) rotate(-2deg); }
+    75% { transform: translateX(5px) rotate(2deg); }
+  }
+
+  .main-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  canvas {
+    background: radial-gradient(circle at top, #2d2d44, #1a1a2e);
+    box-shadow: 0 0 60px rgba(255, 107, 107, 0.5), 0 0 100px rgba(78, 205, 196, 0.3);
+    border-radius: 20px;
+    border: 3px solid #ff6b6b;
+  }
+
+  .meme-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 200px;
+  }
+
+  .meme-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 3px solid #ffd93d;
+    animation: float 3s ease-in-out infinite;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .meme-img:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 0 30px #ffd93d;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .meme-img:nth-child(2) { animation-delay: 0.5s; }
+  .meme-img:nth-child(3) { animation-delay: 1s; }
+
+  .disclaimer {
+    margin-top: 20px;
+    color: #4ecdc4;
+    font-size: 14px;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0.5; }
+  }
+
+  .floating-meme {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+    animation: flyAcross 4s linear forwards;
+    font-size: 80px;
+  }
+
+  @keyframes flyAcross {
+    0% { transform: translateX(-100px) rotate(0deg); opacity: 1; }
+    100% { transform: translateX(calc(100vw + 100px)) rotate(720deg); opacity: 0; }
+  }
+
+  .sound-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #1a1a2e;
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+    transition: transform 0.3s;
+    z-index: 999;
+  }
+
+  .sound-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .meme-caption {
+    background: rgba(0,0,0,0.8);
+    color: #ffd93d;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .corner-gif {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #ff6b6b;
+    object-fit: cover;
+    animation: spin 4s linear infinite, pulse 1s infinite;
+  }
+
+  .corner-gif.top-left { top: 20px; left: 20px; }
+  .corner-gif.top-right { top: 20px; right: 20px; animation-direction: reverse; }
+  .corner-gif.bottom-left { bottom: 80px; left: 20px; animation-delay: 1s; }
+  .corner-gif.bottom-right { bottom: 80px; right: 80px; animation-direction: reverse; animation-delay: 0.5s; }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px #ff6b6b; }
+    50% { box-shadow: 0 0 40px #ffd93d, 0 0 60px #4ecdc4; }
+  }
+
+  .binod-mode {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    font-weight: 900;
+    color: #ff6b6b;
+    text-shadow: 0 0 50px #ff6b6b;
+    animation: binodPop 0.5s ease-out forwards;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  @keyframes binodPop {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.5); }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Corner GIFs - Desi Chaos -->
+<img class="corner-gif top-left" src="https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif" alt="dance">
+<img class="corner-gif top-right" src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="party">
+<img class="corner-gif bottom-left" src="https://media.giphy.com/media/3oKIPlifLxdigaQuR2/giphy.gif" alt="money">
+<img class="corner-gif bottom-right" src="https://media.giphy.com/media/xT0xezQGU5xCDJuCPe/giphy.gif" alt="fire">
+
+<h1>🚀 DESI MEME TABAAHI 2026 🚀</h1>
+<p class="subtitle">✨ Rasode mein kaun tha? BINOD tha! ✨</p>
+
+<div class="main-container">
+  <div class="meme-panel">
+    <img class="meme-img" src="https://i.imgflip.com/4/30b1gx.jpg" alt="meme1" onclick="memeClick('Ye bik gayi hai gormint!')">
+    <div class="meme-caption">Gormint waale 🤡</div>
+    <img class="meme-img" src="https://i.imgflip.com/4/1bhw.jpg" alt="meme2" onclick="memeClick('BINOD!')">
+    <div class="meme-caption">BINOD Mode 🔥</div>
+  </div>
+
+  <canvas id="canvas" width="700" height="450"></canvas>
+
+  <div class="meme-panel">
+    <img class="meme-img" src="https://i.imgflip.com/4/4t0me.jpg" alt="meme3" onclick="memeClick('Thoda aur sunao!')">
+    <div class="meme-caption">Engineering Pain 💀</div>
+    <img class="meme-img" src="https://i.imgflip.com/4/1bij.jpg" alt="meme4" onclick="memeClick('Sharma ji ka beta phir top!')">
+    <div class="meme-caption">Sharma Ji Ka Beta 📚</div>
+  </div>
+</div>
+
+<p class="disclaimer">⚠️ Samjhdaar ko ishaara kaafi hai | Rasode mein BINOD tha ⚠️</p>
+
+<button class="sound-btn" onclick="toggleChaos()">🔊 CHAOS MODE: OFF</button>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  let textY = 180;
+  let direction = 1;
+  let hue = 0;
+  let clickCount = 0;
+  let chaosMode = false;
+  let binodCount = 0;
+
+  // Desi Meme Dialogues - Full Hinglish Tabaahi 🌶️
+  const dialogues = [
+    "2026 aa gaya bhai! 😱",
+    "Rasode mein kaun tha?! 🍳",
+    "BINOD! 🔥",
+    "Abhi toh party shuru hui hai! 🎉",
+    "Sharma ji ka beta NASA mein! 🚀",
+    "Ek number! Full too much! 💯",
+    "Ye bik gayi hai gormint! 😤",
+    "Bachpan ka pyaar mera! 💕",
+    "Pawri ho rahi hai! 🥳",
+    "Komedy king ban gaye! 🤣",
+    "Thappad se darr nahi lagta! 👋",
+    "Engineering karle beta! 📚",
+    "Acche din aane waale hai! 🤡",
+    "Mummy ne bola ghar aaja! 📞",
+    "Daru peeke sab bhul jaao! 🍺",
+    "Bhai bhai bhai! 😂",
+    "Tera baap aaya! 😎",
+    "Chal hat bsdk! 🖕",
+    "Monday ko aag lagao! 🔥",
+    "Papa ki pari hu main! 👸",
+  ];
+
+  const funnySubtexts = [
+    "Paisa nahi hai, tension bahut hai 💀",
+    "Sab moh maya hai bhai",
+    "Zindagi jhand hai, phir bhi ghamand hai 😎",
+    "Sharma ji ka beta kahan hai ab? 🤔",
+    "Ghar wale: Shaadi kab? Me: 🏃💨",
+    "CTRL + Z real life mein kyu nahi hai? 😭",
+    "2026 me bhi acche din ka wait 🤡",
+    "Kokilaben: RASODE MEIN KAUN THA?!",
+    "Arnab: Mujhe drugs do! 📺",
+    "Papa: Padhai kar | Me: Haan kal se 📖",
+    "IIT nahi hua? Zindagi khatam! 💀",
+    "Instagram pe toh influencer hai 📱",
+    "OnlyFans chalao, job ki kya zaroorat 🤑",
+    "Crypto mein kho gaye paise 📉",
+    "CA hai? Ladki mil jayegi 💑",
+    "Beti bachao, Beti padhao, Beti ko iPhone do 📲",
+  ];
+
+  // Famous Indian Meme References
+  const memeReferences = ['🇮🇳', '🍳', '💀', '🤡', '🔥', '💯', '🏏', '☕', '🎬', '📺'];
+
+  let currentDialogue = dialogues[0];
+  let currentSubtext = funnySubtexts[0];
+  let dialogueIndex = 0;
+
+  // Crazy particles with more desi emojis
+  const particles = Array.from({ length: 60 }, () => ({
+    x: Math.random() * canvas.width,
+    y: canvas.height + Math.random() * 200,
+    radius: Math.random() * 6 + 2,
+    speed: Math.random() * 2 + 1,
+    emoji: ['🔥', '💀', '🤡', '😭', '💸', '🚀', '⭐', '✨', '🎉', '💯', '🇮🇳', '🍳', '🏏', '☕'][Math.floor(Math.random() * 14)],
+    rotation: 0,
+    rotationSpeed: (Math.random() - 0.5) * 0.2
+  }));
+
+  // Floating rupees because paisa hi sab kuch hai 💸
+  const rupees = Array.from({ length: 10 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 3,
+    vy: (Math.random() - 0.5) * 3,
+    size: Math.random() * 25 + 15,
+    symbol: ['₹', '💰', '🪙'][Math.floor(Math.random() * 3)]
+  }));
+
+  // Floating meme images on canvas
+  const memeImages = [];
+  const memeUrls = [
+    'https://i.imgflip.com/4/30b1gx.jpg',
+    'https://i.imgflip.com/4/1bhw.jpg',
+    'https://i.imgflip.com/4/4t0me.jpg',
+    'https://i.imgflip.com/4/1bij.jpg',
+  ];
+
+  memeUrls.forEach((url, i) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = url;
+    memeImages.push({
+      img: img,
+      x: Math.random() * (canvas.width - 60),
+      y: Math.random() * (canvas.height - 60),
+      vx: (Math.random() - 0.5) * 1.5,
+      vy: (Math.random() - 0.5) * 1.5,
+      size: 50,
+      rotation: 0,
+      rotationSpeed: (Math.random() - 0.5) * 0.05
+    });
+  });
+
+  function drawBackground() {
+    hue = (hue + (chaosMode ? 2 : 0.5)) % 360;
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, `hsl(${hue}, 70%, 20%)`);
+    gradient.addColorStop(0.5, `hsl(${(hue + 60) % 360}, 70%, 15%)`);
+    gradient.addColorStop(1, `hsl(${(hue + 120) % 360}, 70%, 20%)`);
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Disco lights effect - more intense in chaos mode
+    const lightCount = chaosMode ? 10 : 5;
+    for (let i = 0; i < lightCount; i++) {
+      ctx.beginPath();
+      ctx.arc(
+        Math.sin(Date.now() / 500 + i) * 250 + canvas.width / 2,
+        Math.cos(Date.now() / 400 + i) * 180 + canvas.height / 2,
+        chaosMode ? 150 : 100,
+        0,
+        Math.PI * 2
+      );
+      ctx.fillStyle = `hsla(${(hue + i * 40) % 360}, 100%, 50%, ${chaosMode ? 0.15 : 0.1})`;
+      ctx.fill();
+    }
+
+    // Indian flag colors strip at top
+    const stripHeight = 8;
+    ctx.fillStyle = '#FF9933';
+    ctx.fillRect(10, 10, canvas.width - 20, stripHeight);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(10, 10 + stripHeight, canvas.width - 20, stripHeight);
+    ctx.fillStyle = '#138808';
+    ctx.fillRect(10, 10 + stripHeight * 2, canvas.width - 20, stripHeight);
+  }
+
+  function drawMemeImages() {
+    memeImages.forEach(m => {
+      if (m.img.complete) {
+        ctx.save();
+        ctx.translate(m.x + m.size/2, m.y + m.size/2);
+        ctx.rotate(m.rotation);
+        ctx.globalAlpha = 0.7;
+        ctx.drawImage(m.img, -m.size/2, -m.size/2, m.size, m.size);
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = '#ffd93d';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(-m.size/2, -m.size/2, m.size, m.size);
+        ctx.restore();
+      }
+
+      m.x += m.vx * (chaosMode ? 2 : 1);
+      m.y += m.vy * (chaosMode ? 2 : 1);
+      m.rotation += m.rotationSpeed * (chaosMode ? 3 : 1);
+
+      if (m.x < 0 || m.x > canvas.width - m.size) m.vx *= -1;
+      if (m.y < 40 || m.y > canvas.height - m.size) m.vy *= -1;
+    });
+  }
+
+  function drawText() {
+    ctx.textAlign = "center";
+    
+    // Main heading with glow
+    ctx.shadowColor = `hsl(${hue}, 100%, 50%)`;
+    ctx.shadowBlur = chaosMode ? 50 : 30;
+
+    // Bouncy scale effect - more intense in chaos mode
+    const scale = 1 + Math.sin(Date.now() / (chaosMode ? 100 : 200)) * (chaosMode ? 0.1 : 0.05);
+    ctx.save();
+    ctx.translate(canvas.width / 2, textY);
+    ctx.scale(scale, scale);
+    if (chaosMode) {
+      ctx.rotate(Math.sin(Date.now() / 200) * 0.05);
+    }
+    
+    ctx.font = "900 36px 'Poppins'";
+    ctx.fillStyle = "#ff6b6b";
+    ctx.fillText(currentDialogue, 0, 0);
+    
+    ctx.restore();
+
+    // Subtext
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = "#4ecdc4";
+    ctx.font = "400 14px 'Poppins'";
+    ctx.fillStyle = "#4ecdc4";
+    ctx.fillText(currentSubtext, canvas.width / 2, textY + 45);
+
+    // Stats bar
+    ctx.shadowBlur = 0;
+    ctx.font = "700 12px 'Poppins'";
+    ctx.fillStyle = "#ffd93d";
+    ctx.fillText(`🖱️ Clicks: ${clickCount} | BINOD: ${binodCount} | Productivity: -${Math.floor(clickCount/2)}% 😂`, canvas.width / 2, canvas.height - 25);
+
+    // Meme mode indicator
+    if (chaosMode) {
+      ctx.fillStyle = "#ff6b6b";
+      ctx.font = "900 16px 'Poppins'";
+      ctx.fillText("🔥 FULL CHAOS MODE 🔥", canvas.width / 2, canvas.height - 50);
+    }
+
+    ctx.shadowBlur = 0;
+  }
+
+  function drawParticles() {
+    particles.forEach(p => {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.font = `${p.radius * 3}px Arial`;
+      ctx.textAlign = "center";
+      ctx.fillText(p.emoji, 0, 0);
+      ctx.restore();
+
+      p.y -= p.speed * (chaosMode ? 2 : 1);
+      p.rotation += p.rotationSpeed * (chaosMode ? 2 : 1);
+
+      if (p.y < -30) {
+        p.y = canvas.height + 30;
+        p.x = Math.random() * canvas.width;
+        p.emoji = ['🔥', '💀', '🤡', '😭', '💸', '🚀', '⭐', '✨', '🎉', '💯', '🇮🇳', '🍳', '🏏', '☕'][Math.floor(Math.random() * 14)];
+      }
+    });
+  }
+
+  function drawRupees() {
+    rupees.forEach(r => {
+      ctx.font = `${r.size}px Arial`;
+      ctx.fillStyle = '#ffd93d';
+      ctx.fillText(r.symbol, r.x, r.y);
+      
+      r.x += r.vx * (chaosMode ? 2 : 1);
+      r.y += r.vy * (chaosMode ? 2 : 1);
+
+      if (r.x < 0 || r.x > canvas.width) r.vx *= -1;
+      if (r.y < 40 || r.y > canvas.height) r.vy *= -1;
+    });
+  }
+
+  function drawBorder() {
+    // Animated rainbow border
+    ctx.strokeStyle = `hsl(${hue}, 100%, 60%)`;
+    ctx.lineWidth = chaosMode ? 6 : 4;
+    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+
+    // Corner decorations
+    const corners = [[15, 15], [canvas.width - 35, 15], [15, canvas.height - 35], [canvas.width - 35, canvas.height - 35]];
+    corners.forEach((c, i) => {
+      ctx.font = "20px Arial";
+      ctx.fillText(['🔥', '💀', '🇮🇳', '🏏'][i], c[0], c[1] + 20);
+    });
+  }
+
+  function spawnFloatingEmoji() {
+    const emojis = ['🔥', '💀', '🤡', '🍳', '📺', '🇮🇳', '💯', '🏏', '☕', '🎬'];
+    const div = document.createElement('div');
+    div.className = 'floating-meme';
+    div.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    div.style.top = Math.random() * 80 + 10 + '%';
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 4000);
+  }
+
+  function showBinod() {
+    const div = document.createElement('div');
+    div.className = 'binod-mode';
+    div.textContent = 'BINOD!';
+    document.body.appendChild(div);
+    binodCount++;
+    setTimeout(() => div.remove(), 500);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawBackground();
+    drawMemeImages();
+    drawParticles();
+    drawRupees();
+    drawText();
+    drawBorder();
+
+    textY += 0.4 * direction;
+    if (textY > 195 || textY < 165) direction *= -1;
+
+    if (chaosMode && Math.random() < 0.02) {
+      spawnFloatingEmoji();
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  // Change dialogue on click
+  canvas.addEventListener('click', (e) => {
+    clickCount++;
+    dialogueIndex = (dialogueIndex + 1) % dialogues.length;
+    currentDialogue = dialogues[dialogueIndex];
+    currentSubtext = funnySubtexts[Math.floor(Math.random() * funnySubtexts.length)];
+    
+    // 20% chance of BINOD!
+    if (Math.random() < 0.2) {
+      showBinod();
+    }
+    
+    // Burst effect
+    for (let i = 0; i < 15; i++) {
+      particles.push({
+        x: e.offsetX,
+        y: e.offsetY,
+        radius: Math.random() * 5 + 2,
+        speed: Math.random() * 6 + 3,
+        emoji: ['💥', '⚡', '🔥', '✨', '🇮🇳', '🍳'][Math.floor(Math.random() * 6)],
+        rotation: 0,
+        rotationSpeed: (Math.random() - 0.5) * 0.4
+      });
+    }
+    
+    // Limit particles
+    if (particles.length > 120) particles.splice(0, 20);
+  });
+
+  // Meme click handler
+  function memeClick(text) {
+    currentDialogue = text;
+    clickCount++;
+    if (text === 'BINOD!') {
+      showBinod();
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => spawnFloatingEmoji(), i * 200);
+      }
+    }
+  }
+  window.memeClick = memeClick;
+
+  // Toggle chaos mode
+  function toggleChaos() {
+    chaosMode = !chaosMode;
+    const btn = document.querySelector('.sound-btn');
+    btn.textContent = chaosMode ? '🔊 CHAOS MODE: ON 🔥' : '🔊 CHAOS MODE: OFF';
+    btn.style.background = chaosMode ? 'linear-gradient(45deg, #ff4757, #ff6b6b)' : 'linear-gradient(45deg, #ff6b6b, #ffd93d)';
+    
+    if (chaosMode) {
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => spawnFloatingEmoji(), i * 100);
+      }
+      showBinod();
+    }
+  }
+  window.toggleChaos = toggleChaos;
+
+  // Change dialogue every 2.5 seconds
+  setInterval(() => {
+    dialogueIndex = (dialogueIndex + 1) % dialogues.length;
+    currentDialogue = dialogues[dialogueIndex];
+    currentSubtext = funnySubtexts[Math.floor(Math.random() * funnySubtexts.length)];
+  }, 2500);
+
+  // Random BINOD popup
+  setInterval(() => {
+    if (chaosMode && Math.random() < 0.3) {
+      showBinod();
+    }
+  }, 3000);
+
+  // Spawn floating emoji periodically
+  setInterval(() => {
+    if (chaosMode) {
+      spawnFloatingEmoji();
+    }
+  }, 1000);
+
+  animate();
+  
+  console.log("🔥 GAND FAAD DESI MEME MODE ACTIVATED! 🔥");
+  console.log("RASODE MEIN KAUN THA?!");
+  console.log("BINOD!");
+  console.log("Bhai ne banaya hai, full mazze lo! 😎");
+</script>
+
+</body>
+</html>
+
