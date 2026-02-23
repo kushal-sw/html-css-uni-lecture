@@ -91,7 +91,7 @@ nav ul li:hover::after {
   height: 60vh; /* vh unit */
   background: 
     linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
-    url("hero.jpg") center / cover no-repeat;
+    url("./imgs/hero.jpg") center / cover no-repeat;
   color: white;
   text-align: center;
   padding-top: 8rem;
